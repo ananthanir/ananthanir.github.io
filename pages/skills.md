@@ -1,6 +1,6 @@
 # 💻 Skills
 
-## Web application development
+## Web App development
 <p>
     <a href="https://www.typescriptlang.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/ananthanir/HelloWorldV2/adc428d165e8188f82000c83d2742649bbc2087d/assets/typescript-colored.svg" width="36" height="36" alt="TypeScript" /></a>
     <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/ananthanir/HelloWorldV2/adc428d165e8188f82000c83d2742649bbc2087d/assets/javascript-colored.svg" width="36" height="36" alt="JavaScript" /></a>
@@ -18,7 +18,7 @@
 
 </p>
 
-## Blockchain Application Development
+## Blockchain App Development
 <p>
     <a href="https://metamask.io/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/ananthanir/HelloWorldV2/adc428d165e8188f82000c83d2742649bbc2087d/assets/metamask-colored.svg" width="36" height="36" alt="MetaMask" /></a>
     <a href="https://ethers.io" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/ananthanir/HelloWorldV2/adc428d165e8188f82000c83d2742649bbc2087d/assets/ethers-colored.svg" width="36" height="36" alt="Ethers" /></a>
@@ -36,7 +36,7 @@
     <a href="https://www.infura.io/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/ananthanir/HelloWorldV2/bd909bf3556cecf398024fca0e181b837491928f/assets/infura-logo.svg" width="36" height="36" alt="Infura" /></a>
 </p>
 
-## Additional Skills
+## Extra skills
 <p>
     <a href="https://dart.dev/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/ananthanir/HelloWorldV2/adc428d165e8188f82000c83d2742649bbc2087d/assets/dart-colored.svg" width="36" height="36" alt="Dart" /></a>
     <a href="https://pytorch.org/" target="_blank" rel="noreferrer"><img src="https://raw.githubusercontent.com/ananthanir/HelloWorldV2/adc428d165e8188f82000c83d2742649bbc2087d/assets/pyTorch-logo.svg" width="36" height="36" alt="PyTorch" /></a>
