@@ -1,2 +1,0 @@
-# 🥇 Certificates
-maybe later
