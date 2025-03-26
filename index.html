@@ -10,7 +10,7 @@
     />
     <style>
       body {
-        font-family: 'Brush Script MT', cursive;
+        font-family: "Brush Script MT", cursive;
         display: flex;
         flex-direction: column;
         position: relative;
@@ -20,6 +20,14 @@
         background: linear-gradient(135deg, #927a96, #5e5565);
         color: rgb(227, 214, 214);
         overflow-y: hidden;
+      }
+
+      .non-selectable {
+        user-select: none; /* Standard syntax */
+        -webkit-user-select: none; /* Safari/Chrome */
+        -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* IE10+ */
+        pointer-events: none; /* Disable mouse events, optional if you don't want interaction */
       }
 
       .username {
@@ -73,13 +81,13 @@
   </head>
   <body>
     <div class="card">
-      <div>
+      <div class="non-selectable">
         <img src="logo.png" />
       </div>
 
-      <div class="username"><b>Ananthan Rajasekharan</b></div>
+      <div class="username non-selectable"><b>Ananthan Rajasekharan</b></div>
 
-      <div class="bio">
+      <div class="bio non-selectable">
         Practicing magic in imaginary realms & coding. Aspiring Great Sage. 😎
       </div>
 
