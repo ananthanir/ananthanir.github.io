@@ -108,6 +108,9 @@ export default function Deck() {
   const [platformId, setPlatformId] = useState<string | null>(null);
   const [slideIdx, setSlideIdx] = useState(0);
   const [theme, setTheme] = useState<Theme>("light");
+  // Reveals the menu cards hidden by default — Ctrl+S+D held together, not
+  // documented anywhere in the UI.
+  const [hiddenUnlocked, setHiddenUnlocked] = useState(false);
 
   const platform = platformId ? PLATFORMS.find((p) => p.id === platformId) ?? null : null;
   const total = platform?.slides.length ?? 0;
@@ -230,6 +233,37 @@ export default function Deck() {
     return () => window.removeEventListener("keydown", onKey);
   }, [platform, step, toggleTheme, toggleFullscreen, goToMenu]);
 
+  // Separate listener: runs even while Ctrl is held (the nav listener above
+  // bails out on any modifier key). Toggles on each fresh press of the combo
+  // — held.size guards against keydown's repeat-while-held firing it
+  // over and over.
+  useEffect(() => {
+    const held = new Set<string>();
+    let triggered = false;
+    const onKeyDown = (e: KeyboardEvent) => {
+      const k = e.key.toLowerCase();
+      if (e.ctrlKey && (k === "s" || k === "d")) {
+        e.preventDefault(); // stop the browser's Save Page dialog on Ctrl+S
+        held.add(k);
+        if (held.has("s") && held.has("d") && !triggered) {
+          triggered = true;
+          setHiddenUnlocked((v) => !v);
+        }
+      }
+    };
+    const onKeyUp = (e: KeyboardEvent) => {
+      const k = e.key.toLowerCase();
+      held.delete(k);
+      if (k === "control" || k === "s" || k === "d") triggered = false;
+    };
+    window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("keyup", onKeyUp);
+    return () => {
+      window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("keyup", onKeyUp);
+    };
+  }, []);
+
   const SlideComp = slide.component;
 
   return (
@@ -278,7 +312,7 @@ export default function Deck() {
         key={slide.id}
         className="absolute inset-0 z-10 animate-[fade-in_0.4s_ease_both]"
       >
-        <SlideComp goTo={goTo} />
+        <SlideComp goTo={goTo} hiddenUnlocked={hiddenUnlocked} />
       </div>
 
       {/* bottom chrome */}

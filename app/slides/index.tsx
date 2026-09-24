@@ -8,6 +8,7 @@ import { ContractAddressSlide, EoaAddressSlide } from "./eth-address-flow";
 import { EtherUnitsSlide } from "./ether-units";
 import { GasCostSlide } from "./gas-cost";
 import { MenuSlide } from "./menu";
+import { SeedAddressSlide, SeedPhraseSlide } from "./seed-flow";
 
 export type SlideDef = {
   /** stable id — used by the menu / goTo links */
@@ -82,5 +83,14 @@ export const PLATFORMS: Platform[] = [
     name: "Tx Cost Calculation",
     tone: "orange",
     slides: [{ id: "gas-cost", section: "Tx Cost Calculation", component: GasCostSlide }],
+  },
+  {
+    id: "seed",
+    name: "MetaMask Seed & Address",
+    tone: "sky",
+    slides: [
+      { id: "seed", section: "MetaMask Seed & Address", component: SeedPhraseSlide },
+      { id: "seed-address", section: "MetaMask Seed & Address", component: SeedAddressSlide },
+    ],
   },
 ];

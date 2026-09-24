@@ -57,7 +57,7 @@ export function EtherUnitsSlide(_: SlideProps) {
           </div>
 
           <div>
-            <div className="mb-2 flex items-center gap-2">
+            <div className="mb-2 flex flex-wrap items-center gap-2">
               {ETHER_UNITS.map((u) => (
                 <button
                   key={u.id}

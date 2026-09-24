@@ -6,6 +6,7 @@ type PlatformCard = {
   tagline: string;
   description: string;
   tone: Tone;
+  hidden?: boolean;
 };
 
 const CARDS: PlatformCard[] = [
@@ -32,12 +33,20 @@ const CARDS: PlatformCard[] = [
     tone: "orange",
   },
   {
+    id: "seed",
+    name: "MetaMask Seed & Address",
+    tagline: "BIP-39 · BIP-32/44",
+    description: "Build a 12-word recovery phrase, then derive an account's address from it.",
+    tone: "sky",
+  },
+  {
     id: "fabric",
     name: "Hyperledger Fabric",
     tagline: "Channel-based · permissioned",
     description:
       "Modular consensus, MSP/CA identity, endorsement-policy driven transactions.",
     tone: "cyan",
+    hidden: true,
   },
   {
     id: "besu",
@@ -46,6 +55,7 @@ const CARDS: PlatformCard[] = [
     description:
       "Familiar Ethereum tooling with QBFT/IBFT consensus for permissioned networks.",
     tone: "violet",
+    hidden: true,
   },
   {
     id: "corda",
@@ -54,35 +64,37 @@ const CARDS: PlatformCard[] = [
     description:
       "Point-to-point flows and notarised states — no global broadcast of data.",
     tone: "rose",
+    hidden: true,
   },
 ];
 
-export function MenuSlide({ goTo }: SlideProps) {
+export function MenuSlide({ goTo, hiddenUnlocked }: SlideProps) {
+  const cards = CARDS.filter((card) => !card.hidden || hiddenUnlocked);
   return (
-    <div className="mx-auto flex h-full w-full max-w-[1400px] flex-col items-center justify-center px-10 lg:px-20">
-      <div className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {CARDS.map((card, i) => (
-          <Reveal key={card.id} delay={i * 100}>
+    <div className="mx-auto flex h-full w-full max-w-[1100px] flex-col items-center overflow-y-auto px-6 pb-16 pt-24 sm:px-10 sm:pt-28">
+      <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {cards.map((card, i) => (
+          <Reveal key={card.id} delay={i * 80}>
             <button
               onClick={() => goTo(card.id)}
-              className="group flex h-full w-full flex-col rounded-2xl border p-7 text-left transition duration-200 hover:-translate-y-1 hover:shadow-xl"
+              className="group flex h-full w-full flex-col rounded-xl border p-5 text-left transition duration-200 hover:-translate-y-1 hover:shadow-xl"
               style={{
                 borderColor: toneVar(card.tone, "border"),
                 background: toneVar(card.tone, "wash"),
               }}
             >
               <span
-                className="font-mono text-xs uppercase tracking-[0.3em]"
+                className="font-mono text-[11px] uppercase tracking-[0.3em]"
                 style={{ color: toneVar(card.tone, "stroke") }}
               >
                 {card.tagline}
               </span>
-              <span className="text-fg mt-3 text-2xl font-semibold">{card.name}</span>
-              <span className="text-muted mt-3 text-[15px] leading-relaxed">
+              <span className="text-fg mt-2 text-lg font-semibold">{card.name}</span>
+              <span className="text-muted mt-2 text-[13px] leading-relaxed">
                 {card.description}
               </span>
               <span
-                className="mt-6 inline-flex items-center gap-1.5 text-sm font-medium"
+                className="mt-4 inline-flex items-center gap-1.5 text-xs font-medium"
                 style={{ color: toneVar(card.tone, "stroke") }}
               >
                 View demo

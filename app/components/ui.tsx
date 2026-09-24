@@ -1,8 +1,11 @@
 import type { CSSProperties, ReactNode } from "react";
 
-/** Every slide receives this; `goTo` jumps to a slide by its id. */
+/** Every slide receives this; `goTo` jumps to a slide by its id.
+ *  `hiddenUnlocked` is only meaningful to the menu — whether a secret
+ *  key combo has revealed the platform cards it hides by default. */
 export type SlideProps = {
   goTo: (id: string) => void;
+  hiddenUnlocked?: boolean;
 };
 
 /** Semantic accent colors. Each resolves to different hex values per
@@ -61,7 +64,7 @@ export function SlideShell({
   children: ReactNode;
 }) {
   return (
-    <div className="mx-auto flex h-full w-full max-w-[1400px] flex-col px-10 pb-16 pt-10 lg:px-20 lg:pt-14">
+    <div className="mx-auto flex h-full w-full max-w-[1400px] flex-col overflow-x-hidden px-4 pb-16 pt-8 sm:px-10 sm:pt-10 lg:px-20 lg:pt-14">
       <Reveal>
         <div
           className="font-mono text-xs uppercase tracking-[0.35em]"
@@ -71,11 +74,11 @@ export function SlideShell({
         </div>
       </Reveal>
       <Reveal delay={80}>
-        <h2 className="text-fg mt-3 text-4xl font-semibold tracking-tight lg:text-5xl">
+        <h2 className="text-fg mt-3 text-2xl font-semibold tracking-tight sm:text-4xl lg:text-5xl">
           {title}
         </h2>
       </Reveal>
-      <div className="mt-8 min-h-0 flex-1 lg:mt-10">{children}</div>
+      <div className="mt-6 min-h-0 flex-1 sm:mt-8 lg:mt-10">{children}</div>
     </div>
   );
 }
