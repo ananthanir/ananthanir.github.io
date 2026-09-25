@@ -6,7 +6,6 @@ type PlatformCard = {
   tagline: string;
   description: string;
   tone: Tone;
-  hidden?: boolean;
 };
 
 const CARDS: PlatformCard[] = [
@@ -40,13 +39,40 @@ const CARDS: PlatformCard[] = [
     tone: "sky",
   },
   {
+    id: "calldata",
+    name: "Calldata & ABI Encoding",
+    tagline: "selector · head & tail",
+    description: "See how a function selector is made and how a call's arguments are encoded, word by word.",
+    tone: "rose",
+  },
+  {
+    id: "certs",
+    name: "Certificate dApp",
+    tagline: "Hoodi testnet · MetaMask",
+    description: "Verify a certificate straight from the chain, or connect MetaMask and issue one on a live contract.",
+    tone: "violet",
+  },
+  {
+    id: "bank",
+    name: "Bank dApp",
+    tagline: "Hoodi testnet · deposit & withdraw",
+    description: "See the bank's balance and any address's balance, then deposit and withdraw ETH through MetaMask.",
+    tone: "emerald",
+  },
+  {
+    id: "rpc",
+    name: "JSON-RPC Explorer",
+    tagline: "eth_getBlockByNumber · eth_getTransactionByHash",
+    description: "Paste any node's JSON-RPC URL and call it yourself — raw request and response, decoded.",
+    tone: "cyan",
+  },
+  {
     id: "fabric",
     name: "Hyperledger Fabric",
     tagline: "Channel-based · permissioned",
     description:
       "Modular consensus, MSP/CA identity, endorsement-policy driven transactions.",
     tone: "cyan",
-    hidden: true,
   },
   {
     id: "besu",
@@ -55,7 +81,6 @@ const CARDS: PlatformCard[] = [
     description:
       "Familiar Ethereum tooling with QBFT/IBFT consensus for permissioned networks.",
     tone: "violet",
-    hidden: true,
   },
   {
     id: "corda",
@@ -64,16 +89,14 @@ const CARDS: PlatformCard[] = [
     description:
       "Point-to-point flows and notarised states — no global broadcast of data.",
     tone: "rose",
-    hidden: true,
   },
 ];
 
-export function MenuSlide({ goTo, hiddenUnlocked }: SlideProps) {
-  const cards = CARDS.filter((card) => !card.hidden || hiddenUnlocked);
+export function MenuSlide({ goTo }: SlideProps) {
   return (
-    <div className="mx-auto flex h-full w-full max-w-[1100px] flex-col items-center overflow-y-auto px-6 pb-16 pt-24 sm:px-10 sm:pt-28">
+    <div className="mx-auto flex h-full w-full max-w-[1100px] flex-col items-center overflow-y-auto px-6 pb-16 pt-6 sm:px-10 sm:pt-8">
       <div className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-        {cards.map((card, i) => (
+        {CARDS.map((card, i) => (
           <Reveal key={card.id} delay={i * 80}>
             <button
               onClick={() => goTo(card.id)}

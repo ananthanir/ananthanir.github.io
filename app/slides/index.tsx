@@ -4,6 +4,10 @@ import { BesuSlide, CordaSlide, FabricSlide } from "./platforms";
 import { FabricNetworkSlide, FabricTxSlide } from "./fabric-flow";
 import { BesuNetworkSlide, BesuTxSlide } from "./besu-flow";
 import { CordaNetworkSlide, CordaStateFlowSlide, CordaTxSlide } from "./corda-flow";
+import { BankActionsSlide, BankHomeSlide } from "./bank-flow";
+import { EncodingSlide, SelectorSlide } from "./calldata-flow";
+import { IssueSlide, VerifySlide } from "./certificate-flow";
+import { BlockSlide, TxSlide } from "./rpc-flow";
 import { ContractAddressSlide, EoaAddressSlide } from "./eth-address-flow";
 import { EtherUnitsSlide } from "./ether-units";
 import { GasCostSlide } from "./gas-cost";
@@ -91,6 +95,42 @@ export const PLATFORMS: Platform[] = [
     slides: [
       { id: "seed", section: "MetaMask Seed & Address", component: SeedPhraseSlide },
       { id: "seed-address", section: "MetaMask Seed & Address", component: SeedAddressSlide },
+    ],
+  },
+  {
+    id: "calldata",
+    name: "Calldata & ABI Encoding",
+    tone: "rose",
+    slides: [
+      { id: "calldata", section: "Calldata & ABI Encoding", component: SelectorSlide },
+      { id: "calldata-encoding", section: "Calldata & ABI Encoding", component: EncodingSlide },
+    ],
+  },
+  {
+    id: "certs",
+    name: "Certificate dApp",
+    tone: "violet",
+    slides: [
+      { id: "certs", section: "Certificate dApp", component: VerifySlide },
+      { id: "certs-issue", section: "Certificate dApp", component: IssueSlide },
+    ],
+  },
+  {
+    id: "bank",
+    name: "Bank dApp",
+    tone: "emerald",
+    slides: [
+      { id: "bank", section: "Bank dApp", component: BankHomeSlide },
+      { id: "bank-actions", section: "Bank dApp", component: BankActionsSlide },
+    ],
+  },
+  {
+    id: "rpc",
+    name: "JSON-RPC Explorer",
+    tone: "cyan",
+    slides: [
+      { id: "rpc", section: "JSON-RPC Explorer", component: BlockSlide },
+      { id: "rpc-tx", section: "JSON-RPC Explorer", component: TxSlide },
     ],
   },
 ];

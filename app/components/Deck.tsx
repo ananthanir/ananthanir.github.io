@@ -6,12 +6,16 @@ import { MENU_SLIDE, PLATFORMS } from "../slides";
 
 type Theme = "dark" | "light";
 
-/** Top bar: page title on the left, host/sponsor lockup on the right,
- *  both on the same line. The lockup is fixed on every slide; the title
- *  is only passed on the menu screen. */
+/** Fixed header bar with a solid background: page title on the left,
+ *  host/sponsor lockup on the right, both on the same line. Slides live in
+ *  the area below it, so scrolling content never passes underneath. The
+ *  title is only passed on the menu screen. */
 function TopBar({ title }: { title?: string }) {
   return (
-    <div className="pointer-events-none absolute inset-x-4 top-3 z-30 flex items-center justify-between sm:inset-x-6 sm:top-4">
+    <header
+      className="absolute inset-x-0 top-0 z-30 flex h-[62px] items-center justify-between border-b px-4 sm:h-[72px] sm:px-6"
+      style={{ background: "var(--header-bg)", borderColor: "var(--panel-border)" }}
+    >
       <div>
         {title && (
           <span className="text-fg font-mono text-xs uppercase tracking-[0.35em] sm:text-sm">
@@ -34,7 +38,7 @@ function TopBar({ title }: { title?: string }) {
           <div className="text-fg text-[14px] font-bold uppercase tracking-wide sm:text-[15px]">Academy</div>
         </div>
       </div>
-    </div>
+    </header>
   );
 }
 
@@ -108,9 +112,6 @@ export default function Deck() {
   const [platformId, setPlatformId] = useState<string | null>(null);
   const [slideIdx, setSlideIdx] = useState(0);
   const [theme, setTheme] = useState<Theme>("light");
-  // Reveals the menu cards hidden by default — Ctrl+S+D held together, not
-  // documented anywhere in the UI.
-  const [hiddenUnlocked, setHiddenUnlocked] = useState(false);
 
   const platform = platformId ? PLATFORMS.find((p) => p.id === platformId) ?? null : null;
   const total = platform?.slides.length ?? 0;
@@ -187,6 +188,9 @@ export default function Deck() {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (e.ctrlKey || e.metaKey || e.altKey) return;
+      // Typing into a field must never trigger deck shortcuts (space, d, f, arrows…).
+      const target = e.target as HTMLElement | null;
+      if (target && (target.isContentEditable || /^(INPUT|TEXTAREA|SELECT)$/.test(target.tagName))) return;
       // Space on a focused button (e.g. interactive slides) should click it,
       // not also advance the deck.
       if (e.key === " " && (e.target as HTMLElement)?.closest?.("button")) return;
@@ -233,41 +237,10 @@ export default function Deck() {
     return () => window.removeEventListener("keydown", onKey);
   }, [platform, step, toggleTheme, toggleFullscreen, goToMenu]);
 
-  // Separate listener: runs even while Ctrl is held (the nav listener above
-  // bails out on any modifier key). Toggles on each fresh press of the combo
-  // — held.size guards against keydown's repeat-while-held firing it
-  // over and over.
-  useEffect(() => {
-    const held = new Set<string>();
-    let triggered = false;
-    const onKeyDown = (e: KeyboardEvent) => {
-      const k = e.key.toLowerCase();
-      if (e.ctrlKey && (k === "s" || k === "d")) {
-        e.preventDefault(); // stop the browser's Save Page dialog on Ctrl+S
-        held.add(k);
-        if (held.has("s") && held.has("d") && !triggered) {
-          triggered = true;
-          setHiddenUnlocked((v) => !v);
-        }
-      }
-    };
-    const onKeyUp = (e: KeyboardEvent) => {
-      const k = e.key.toLowerCase();
-      held.delete(k);
-      if (k === "control" || k === "s" || k === "d") triggered = false;
-    };
-    window.addEventListener("keydown", onKeyDown);
-    window.addEventListener("keyup", onKeyUp);
-    return () => {
-      window.removeEventListener("keydown", onKeyDown);
-      window.removeEventListener("keyup", onKeyUp);
-    };
-  }, []);
-
   const SlideComp = slide.component;
 
   return (
-    <main className="text-fg fixed inset-0 select-none overflow-hidden" style={{ background: "var(--bg)" }}>
+    <main className="text-fg fixed inset-0 overflow-hidden" style={{ background: "var(--bg)" }}>
       {/* ambient backdrop */}
       <div aria-hidden className="pointer-events-none absolute inset-0">
         <div
@@ -297,7 +270,7 @@ export default function Deck() {
 
       {/* progress bar — only meaningful inside a platform's flow */}
       {platform && (
-        <div className="absolute inset-x-0 top-0 z-20 h-[3px]" style={{ background: "var(--chrome-bg)" }}>
+        <div className="absolute inset-x-0 top-0 z-40 h-[3px]" style={{ background: "var(--chrome-bg)" }}>
           <div
             className="h-full transition-all duration-500"
             style={{ width: `${((slideIdx + 1) / total) * 100}%`, background: "var(--grad-progress)" }}
@@ -310,13 +283,13 @@ export default function Deck() {
       {/* slide — keyed so entrance animations replay on every navigation */}
       <div
         key={slide.id}
-        className="absolute inset-0 z-10 animate-[fade-in_0.4s_ease_both]"
+        className="absolute inset-x-0 bottom-0 top-[62px] z-10 animate-[fade-in_0.4s_ease_both] sm:top-[72px]"
       >
-        <SlideComp goTo={goTo} hiddenUnlocked={hiddenUnlocked} />
+        <SlideComp goTo={goTo} />
       </div>
 
       {/* bottom chrome */}
-      <div className="absolute inset-x-0 bottom-0 z-20 flex items-center px-6 py-3">
+      <div className="absolute inset-x-0 bottom-0 z-20 flex select-none items-center px-6 py-3">
         <div className="text-muted-2 hidden font-mono text-xs tracking-wide sm:block">
           {platform ? "← → navigate · Esc menu · D theme · F fullscreen" : "D theme · F fullscreen"}
         </div>
